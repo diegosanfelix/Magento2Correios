@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Store:etc/config.xsd">
+    <default>
+        <carriers>
+            <correiosship>
+                <active>1</active>
+                <sallowspecific>0</sallowspecific>
+                <model>Igorludgero\Correios\Model\Carrier\Correiosship</model>
+                <name>Igorludgero Correios</name>
+                <title>Igorludgero - Cálculo dos Correios</title>
+                <type>I</type>
+                <specificerrmsg>Cálculo não disponível, por favor verifique a conexão com o webservices e as dimensões e peso dos produtos.</specificerrmsg>
+            </correiosship>
+        </carriers>
+    </default>
+</config>

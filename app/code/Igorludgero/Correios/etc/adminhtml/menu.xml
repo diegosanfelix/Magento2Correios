@@ -1,0 +1,29 @@
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Backend:etc/menu.xsd">
+    <menu>
+        <add id="Igorludgero_Correios::correios_menutop"
+             title="[IgorLudgero] - Correios Integration"
+             module="Igorludgero_Correios"
+             sortOrder="99"
+             resource="Igorludgero_Correios::correios_menutop"
+        />
+
+        <add id="Igorludgero_Correios::correios_menuoption1"
+             title="Postcode Tracks"
+             module="Igorludgero_Correios"
+             sortOrder="1"
+             resource="Igorludgero_Correios::correios_menuoption1"
+             parent="Igorludgero_Correios::correios_menutop"
+             action="correios/cotacoes/index"
+        />
+
+        <add id="Igorludgero_Correios::correios_menuoption2"
+             title="Shipping Method Configuration"
+             module="Igorludgero_Correios"
+             sortOrder="2"
+             resource="Igorludgero_Correios::correios_menuoption2"
+             parent="Igorludgero_Correios::correios_menutop"
+             action="adminhtml/system_config/edit/section/carriers/"
+        />
+
+    </menu>
+</config>

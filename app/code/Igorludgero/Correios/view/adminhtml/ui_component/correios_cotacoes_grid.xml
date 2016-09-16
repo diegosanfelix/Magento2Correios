@@ -1,0 +1,271 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
+    <!--Declare data source, columns list, button...-->
+    <argument name="data" xsi:type="array">
+        <item name="js_config" xsi:type="array">
+            <item name="provider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid_data_source</item>
+            <item name="deps" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid_data_source</item>
+        </item>
+        <item name="spinner" xsi:type="string">correios_cotacoes_columns</item>
+        <item name="buttons" xsi:type="array">
+            <item name="add_cep" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Add New Postcode Track</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">correios/cotacoes/edit</item>
+            </item>
+            <item name="populate" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Populate Track Database</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">correios/cotacoes/populateTracks</item>
+            </item>
+            <item name="update" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Update Tracks</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">correios/cotacoes/updateTracks</item>
+            </item>
+            <item name="clear_db" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Clear Database</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">correios/cotacoes/clearDb</item>
+            </item>
+            <item name="remove_invalid" xsi:type="array">
+                <item name="name" xsi:type="string">add</item>
+                <item name="label" xsi:type="string" translate="true">Delete invalid Tracks</item>
+                <item name="class" xsi:type="string">primary</item>
+                <item name="url" xsi:type="string">correios/cotacoes/removeInvalid</item>
+            </item>
+        </item>
+    </argument>
+    <dataSource name="correios_cotacoes_grid_data_source">
+        <!--The data source-->
+        <argument name="dataProvider" xsi:type="configurableObject">
+            <argument name="class" xsi:type="string">Magento\Framework\View\Element\UiComponent\DataProvider\DataProvider</argument>
+            <argument name="name" xsi:type="string">correios_cotacoes_grid_data_source</argument>
+            <argument name="primaryFieldName" xsi:type="string">id</argument>
+            <argument name="requestFieldName" xsi:type="string">id</argument>
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/provider</item>
+                    <item name="update_url" xsi:type="url" path="mui/index/render"/>
+                    <item name="storageConfig" xsi:type="array">
+                        <item name="indexField" xsi:type="string">id</item>
+                    </item>
+                </item>
+            </argument>
+        </argument>
+    </dataSource>
+    <listingToolbar name="listing_top">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="sticky" xsi:type="boolean">true</item>
+            </item>
+        </argument>
+        <bookmark name="bookmarks"/>
+        <columnsControls name="columns_controls"/>
+        <filterSearch name="fulltext"/>
+        <filters name="listing_filters">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="templates" xsi:type="array">
+                        <item name="filters" xsi:type="array">
+                            <item name="select" xsi:type="array">
+                                <item name="component" xsi:type="string">Magento_Ui/js/form/element/ui-select</item>
+                                <item name="template" xsi:type="string">ui/grid/filters/elements/ui-select</item>
+                            </item>
+                        </item>
+                    </item>
+                </item>
+                <item name="observers" xsi:type="array">
+                    <item name="column" xsi:type="string">column</item>
+                </item>
+            </argument>
+            <filterSelect name="store_id">
+                <argument name="optionsProvider" xsi:type="configurableObject">
+                    <argument name="class" xsi:type="string">Magento\Cms\Ui\Component\Listing\Column\Cms\Options</argument>
+                </argument>
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="provider" xsi:type="string">${ $.parentName }</item>
+                        <item name="imports" xsi:type="array">
+                            <item name="visible" xsi:type="string">componentType = column, index = ${ $.index }:visible</item>
+                        </item>
+                        <item name="dataScope" xsi:type="string">store_id</item>
+                        <item name="label" xsi:type="string" translate="true">Store View</item>
+                        <item name="captionValue" xsi:type="string">0</item>
+                    </item>
+                </argument>
+            </filterSelect>
+        </filters>
+        <paging name="listing_paging"/>
+    </listingToolbar>
+    <container name="listing_top">
+        <massaction name="listing_massaction">
+            <action name="delete">
+                <argument name="data" xsi:type="array">
+                    <item name="config" xsi:type="array">
+                        <item name="type" xsi:type="string">delete</item>
+                        <item name="label" xsi:type="string" translate="true">Delete</item>
+                        <item name="url" xsi:type="url" path="correios/cotacoes/massDelete"/>
+                        <item name="confirm" xsi:type="array">
+                            <item name="title" xsi:type="string" translate="true">Delete</item>
+                            <item name="message" xsi:type="string" translate="true">Are you sure to delete this postcode track?</item>
+                        </item>
+                    </item>
+                </argument>
+            </action>
+        </massaction>
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="template" xsi:type="string">ui/grid/toolbar</item>
+            </item>
+        </argument>
+    </container>
+    <filters name="listing_filters">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="columnsProvider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns</item>
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current.filters</item>
+                </item>
+                <item name="childDefaults" xsi:type="array">
+                    <item name="provider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.listing_top.listing_filters</item>
+                    <item name="imports" xsi:type="array">
+                        <item name="visible" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns.${ $.index }:visible</item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+    </filters>
+    <paging name="listing_paging">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="storageConfig" xsi:type="array">
+                    <item name="provider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.listing_top.bookmarks</item>
+                    <item name="namespace" xsi:type="string">current.paging</item>
+                </item>
+                <item name="selectProvider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns.ids</item>
+            </item>
+        </argument>
+    </paging>
+    <!--<exportButton name="export_button">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="selectProvider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns.ids</item>
+            </item>
+        </argument>
+    </exportButton>-->
+    <columns name="correios_cotacoes_columns">
+        <argument name="data" xsi:type="array">
+            <item name="config" xsi:type="array">
+                <item name="editorConfig" xsi:type="array">
+                    <item name="selectProvider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns.ids</item>
+                    <item name="enabled" xsi:type="boolean">true</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                    <item name="clientConfig" xsi:type="array">
+                        <item name="saveUrl" xsi:type="url" path="correios/cotacoes/inlineEdit"/>
+                        <item name="validateBeforeSave" xsi:type="boolean">false</item>
+                    </item>
+                </item>
+                <item name="childDefaults" xsi:type="array">
+                    <item name="fieldAction" xsi:type="array">
+                        <item name="provider" xsi:type="string">correios_cotacoes_grid.correios_cotacoes_grid.correios_cotacoes_columns_editor</item>
+                        <item name="target" xsi:type="string">startEdit</item>
+                        <item name="params" xsi:type="array">
+                            <item name="0" xsi:type="string">${ $.$data.rowIndex }</item>
+                            <item name="1" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                </item>
+            </item>
+        </argument>
+        <selectionsColumn name="ids">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="resizeEnabled" xsi:type="boolean">false</item>
+                    <item name="resizeDefaultWidth" xsi:type="string">55</item>
+                    <item name="indexField" xsi:type="string">id</item>
+                </item>
+            </argument>
+        </selectionsColumn>
+        <column name="servico">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="editor" xsi:type="array">
+                        <item name="editorType" xsi:type="string">text</item>
+                        <item name="validation" xsi:type="array">
+                            <item name="required-entry" xsi:type="boolean">true</item>
+                        </item>
+                    </item>
+                    <item name="filter" xsi:type="string">textRange</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Service</item>
+                </item>
+            </argument>
+        </column>
+        <column name="prazo">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Delivery Days</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="peso">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Weight</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="valor">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Value</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="cep_inicio">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">First Postcode</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="cep_fim">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">text</item>
+                    <item name="sorting" xsi:type="string">asc</item>
+                    <item name="label" xsi:type="string" translate="true">Last Postcode</item>
+                    <item name="editor" xsi:type="string">text</item>
+                </item>
+            </argument>
+        </column>
+        <column name="ultimo_update" class="Magento\Ui\Component\Listing\Columns\Date">
+            <argument name="data" xsi:type="array">
+                <item name="config" xsi:type="array">
+                    <item name="filter" xsi:type="string">dateRange</item>
+                    <item name="component" xsi:type="string">Magento_Ui/js/grid/columns/date</item>
+                    <item name="dataType" xsi:type="string">date</item>
+                    <item name="label" xsi:type="string" translate="true">Last Update</item>
+                </item>
+            </argument>
+        </column>
+    </columns>
+</listing>

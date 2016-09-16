@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+        xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/ObjectManager/etc/config.xsd">
+    <type name="Igorludgero\Correios\Logger\Handler">
+        <arguments>
+            <argument name="filesystem" xsi:type="object">Magento\Framework\Filesystem\Driver\File</argument>
+        </arguments>
+    </type>
+    <type name="Igorludgero\Correios\Logger\Logger">
+        <arguments>
+            <argument name="name" xsi:type="string">ilcorreioslog</argument>
+            <argument name="handlers"  xsi:type="array">
+                <item name="system" xsi:type="object">Igorludgero\Correios\Logger\Handler</item>
+            </argument>
+        </arguments>
+    </type>
+    <virtualType name="Igorludgero\Correios\Model\ResourceModel\Cotacoes\Collection" type="Magento\Framework\View\Element\UiComponent\DataProvider\SearchResult">
+        <arguments>
+            <argument name="mainTable" xsi:type="string">igorludgero_cotacoes</argument>
+            <argument name="resourceModel" xsi:type="string">Igorludgero\Correios\Model\ResourceModel\Cotacoes</argument>
+        </arguments>
+    </virtualType>
+    <type name="Magento\Framework\View\Element\UiComponent\DataProvider\CollectionFactory">
+        <arguments>
+            <argument name="collections" xsi:type="array">
+                <item name="correios_cotacoes_grid_data_source" xsi:type="string">Igorludgero\Correios\Model\ResourceModel\Cotacoes\Collection</item>
+            </argument>
+        </arguments>
+    </type>
+</config>
