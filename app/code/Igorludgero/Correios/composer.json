@@ -1,0 +1,28 @@
+{
+  "name": "igorludgero/correios",
+  "description": "Módulo de integração dos Correios com o Magento 2.x",
+  "type": "magento2-module",
+  "version": "1.0.0",
+  "license": [
+    "OSL-3.0",
+    "AFL-3.0"
+  ],
+  "require": {
+    "php": "~5.5.0|~5.6.0|~7.0.0",
+    "magento/framework": "~100.0.4"
+  },
+  "authors": [
+    {
+      "name": "Igor Ludgero Miura",
+      "email": "igor@igorludgero.com",
+      "homepage": "https://www.igorludgero.com/",
+      "role": "Developer"
+    }
+  ],
+  "autoload": {
+    "files": [ "registration.php" ],
+    "psr-4": {
+      "Vendor\\Module\\": ""
+    }
+  }
+}
