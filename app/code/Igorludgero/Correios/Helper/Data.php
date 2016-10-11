@@ -136,7 +136,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                 ob_end_clean();
                 if($content)
                     $xml = new \SimpleXMLElement($content);
-            } catch (Exception $e) {
+            } catch (\Exception $e) {
                 $this->logMessage("Error in consult XML: ".$e->getMessage());
                 continue;
             }
@@ -154,7 +154,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
                             $data['prazo'] = $servico->PrazoEntrega + $addDeliveryDays;
                             $data['servico_codigo'] = $servico->Codigo;
                             array_push($ratingsCollection, $data);
-                        } catch (Exception $ex) {
+                        } catch (\Exception $ex) {
                             $this->logMessage("Error in consult XML2: ".$ex->getMessage());
                         }
                     } else {
