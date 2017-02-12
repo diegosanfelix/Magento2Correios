@@ -1,4 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
+<!--
+     **
+     * @package     Igorludgero_Correios
+     * @author      Igor Ludgero Miura - https://www.igorludgero.com/ - igor@igorludgero.com
+     * @copyright   Igor Ludgero Miura - https://www.igorludgero.com/ - igor@igorludgero.com
+     * @license     https://opensource.org/licenses/AFL-3.0  Academic Free License 3.0 | Open Source Initiative
+     **
+-->
 <listing xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:module:Magento_Ui:etc/ui_configuration.xsd">
     <!--Declare data source, columns list, button...-->
     <argument name="data" xsi:type="array">
