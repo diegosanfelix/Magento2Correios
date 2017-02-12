@@ -233,7 +233,7 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
             if($correiosMethod["valor"]>0){
                 $method = $this->_rateMethodFactory->create();
                 $method->setCarrier('correiosship');
-                $method->setCarrierTitle($this->_scopeConfig->getValue('carriers_igorludgero_correios_name', $this->_storeScope));
+                $method->setCarrierTitle($this->_scopeConfig->getValue('carriers/igorludgero_correios/name', $this->_storeScope));
                 $method->setMethod('correiosship_' . $correiosMethod['servico_codigo']);
                 if ($this->_freeShipping == true && $correiosMethod["servico_codigo"] == $this->_freeMethod) {
                     if ($this->_freeShippingMessage != "")
