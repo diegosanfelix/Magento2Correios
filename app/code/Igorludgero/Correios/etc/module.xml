@@ -1,5 +1,13 @@
 <?xml version="1.0"?>
+<!--
+     **
+     * @package     Igorludgero_Correios
+     * @author      Igor Ludgero Miura - https://www.igorludgero.com/ - igor@igorludgero.com
+     * @copyright   Igor Ludgero Miura - https://www.igorludgero.com/ - igor@igorludgero.com
+     * @license     https://opensource.org/licenses/AFL-3.0  Academic Free License 3.0 | Open Source Initiative
+     **
+-->
 <config xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="../../../../../lib/internal/Magento/Framework/Module/etc/module.xsd">
-    <module name="Igorludgero_Correios" setup_version="1.0.0">
+    <module name="Igorludgero_Correios" setup_version="1.0.1">
     </module>
 </config>
