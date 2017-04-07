@@ -11,16 +11,14 @@ namespace Igorludgero\Correios\Helper;
 class Data extends \Magento\Framework\App\Helper\AbstractHelper
 {
 
-    protected $_logger;
     protected $_storeScope;
     protected $_scopeConfig;
     protected $_productRepository;
     protected $_obligatoryLogin = array(40096,40436,40444,81019,41068);
     protected $_cotacoesFactory;
 
-    public function __construct(\Magento\Catalog\Model\ProductRepository $productRepository, \Igorludgero\Correios\Logger\Logger $logger,\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Igorludgero\Correios\Model\ResourceModel\CotacoesFactory $cotacoesFactory)
+    public function __construct(\Magento\Catalog\Model\ProductRepository $productRepository, \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Igorludgero\Correios\Model\ResourceModel\CotacoesFactory $cotacoesFactory)
     {
-        $this->_logger = $logger;
         $this->_storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $this->_scopeConfig = $scopeConfig;
         $this->_productRepository = $productRepository;
@@ -256,8 +254,12 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /** Log a message */
     public function logMessage($message){
-        if(($this->_scopeConfig->getValue("carriers/igorludgero_correios/enabled_log",$this->_storeScope) == 1))
-            $this->_logger->info($message);
+        if(($this->_scopeConfig->getValue("carriers/igorludgero_correios/enabled_log",$this->_storeScope) == 1)) {
+            $writer = new \Zend\Log\Writer\Stream(BP . '/var/log/igorludgero_correios.log');
+            $logger = new \Zend\Log\Logger();
+            $logger->addWriter($writer);
+            $logger->info($message);
+        }
     }
 
     /** Update offline tracks after a period */
