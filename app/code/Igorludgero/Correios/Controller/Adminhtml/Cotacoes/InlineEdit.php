@@ -8,7 +8,7 @@
 
 namespace Igorludgero\Correios\Controller\Adminhtml\Cotacoes;
 
-use Igorludgero\Correios\Model\CotacoesFactory;
+use Igorludgero\Correios\Model\ResourceModel\CotacoesFactory;
 use Magento\Framework\Stdlib\DateTime\TimezoneInterface;
 
 class InlineEdit extends \Magento\Backend\App\Action

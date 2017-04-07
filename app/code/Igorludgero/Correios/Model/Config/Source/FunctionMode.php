@@ -8,8 +8,6 @@
 
 namespace Igorludgero\Correios\Model\Config\Source;
 
-use Magento\Framework\App\ObjectManager;
-
 class FunctionMode implements \Magento\Framework\Option\ArrayInterface
 {
 

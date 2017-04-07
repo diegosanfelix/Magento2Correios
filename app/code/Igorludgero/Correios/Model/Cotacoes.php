@@ -17,7 +17,7 @@ class Cotacoes extends AbstractModel
     protected $_helper;
     protected $_storeScope;
     protected $_scopeConfig;
-    protected $_objManager;
+    protected $_cotacoesFactory;
 
     protected $_maxWeights = array(
         array('service' => 40010, 'max' => 30),
@@ -392,17 +392,27 @@ class Cotacoes extends AbstractModel
 
     protected $_offlineAvailable = array(40010,40096,40436,40444,81019,41106,41068);
 
+    public function __construct( \Magento\Framework\Model\Context $context,
+                                 \Magento\Framework\Registry $registry,
+                                 \Igorludgero\Correios\Model\ResourceModel\CotacoesFactory $cotacoesFactory,
+                                 \Igorludgero\Correios\Helper\Data $helper,
+                                 \Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig,
+                                 array $data = [])
+    {
+        parent::__construct($context, $registry, null, null, $data);
+        $this->_storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
+        $this->_scopeConfig = $scopeConfig;
+        $this->_helper = $helper;
+        $this->_cotacoesFactory = $cotacoesFactory;
+    }
+
     protected function _construct()
     {
         $this->_init('Igorludgero\Correios\Model\ResourceModel\Cotacoes');
-        $this->_storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
-        $this->_objManager = \Magento\Framework\App\ObjectManager::getInstance();
     }
 
     /** Populate offline table */
     public function populate(){
-        $this->_helper = $this->_objManager->create('Igorludgero\Correios\Helper\Data');
-        $this->_scopeConfig = $this->_objManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
         $postingMethods = explode(",",$this->_scopeConfig->getValue('carriers/igorludgero_correios/posting_methods',$this->_storeScope));
         if($this->getCollection()->count()>0){
             $this->_helper->logMessage("Can't populate because the db isn't empty. First you to clear the db.");
@@ -423,7 +433,7 @@ class Cotacoes extends AbstractModel
                 foreach ($weights as $weight){
                     if($method==81019){
                         foreach ($this->_ratesEsedex as $rate){
-                            $newCotacao = $this->_objManager->create("\\Igorludgero\\Correios\\Model\\Cotacoes");
+                            $newCotacao = $this->_cotacoesFactory->create();
                             //$cotacaoValues = $this->_helper->getServiceToPopulate($method,$weight,$rate[2]);
                             $now = new \DateTime();
                             $newCotacao->setServico($method)
@@ -440,7 +450,7 @@ class Cotacoes extends AbstractModel
                     }
                     else{
                         foreach ($this->_ratesPacAndSedex as $rate){
-                            $newCotacao = $this->_objManager->create("\\Igorludgero\\Correios\\Model\\Cotacoes");
+                            $newCotacao = $this->_cotacoesFactory->create();
                             //$cotacaoValues = $this->_helper->getServiceToPopulate($method,$weight,$rate[1]);
                             $now = new \DateTime();
                             $newCotacao->setServico($method)
@@ -467,8 +477,6 @@ class Cotacoes extends AbstractModel
 
     /** Update offline postcode tracks */
     public function updateTracks(){
-        $this->_scopeConfig = $this->_objManager->create('Magento\Framework\App\Config\ScopeConfigInterface');
-        $this->_helper = $this->_objManager->create('Igorludgero\Correios\Helper\Data');
         $maxNumber = $this->_scopeConfig->getValue("carriers/igorludgero_correios/max_update",$this->_storeScope);
         if($maxNumber=="")
             $maxNumber = 100;

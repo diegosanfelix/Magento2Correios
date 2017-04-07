@@ -9,8 +9,6 @@
 
 namespace Igorludgero\Correios\Model\Config\Source;
 
-use Magento\Framework\App\ObjectManager;
-
 class PostingMethods implements \Magento\Framework\Option\ArrayInterface
 {
 

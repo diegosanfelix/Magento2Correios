@@ -16,15 +16,15 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
     protected $_scopeConfig;
     protected $_productRepository;
     protected $_obligatoryLogin = array(40096,40436,40444,81019,41068);
-    protected $_cotacoes;
+    protected $_cotacoesFactory;
 
-    public function __construct(\Magento\Catalog\Model\ProductRepository $productRepository, \Igorludgero\Correios\Logger\Logger $logger,\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Igorludgero\Correios\Model\Cotacoes $cotacoes)
+    public function __construct(\Magento\Catalog\Model\ProductRepository $productRepository, \Igorludgero\Correios\Logger\Logger $logger,\Magento\Framework\App\Config\ScopeConfigInterface $scopeConfig, \Igorludgero\Correios\Model\ResourceModel\CotacoesFactory $cotacoesFactory)
     {
         $this->_logger = $logger;
         $this->_storeScope = \Magento\Store\Model\ScopeInterface::SCOPE_STORE;
         $this->_scopeConfig = $scopeConfig;
         $this->_productRepository = $productRepository;
-        $this->_cotacoes = $cotacoes;
+        $this->_cotacoesFactory = $cotacoesFactory;
     }
 
     public function getMethodName($codigo){
@@ -191,8 +191,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /** Check if can create a new offline postcode track */
     public function canCreateOfflineTrack($service,$firstPostcode,$lastPostcode){
-        $objectManager = \Magento\Framework\App\ObjectManager::getInstance();
-        $collection = $this->_cotacoes->getCollection()->addFieldToFilter('cep_inicio', ["lteq" => $firstPostcode])->addFieldToFilter('cep_fim', ["gteq" => $lastPostcode])->addFilter("servico",$service);
+        $collection = $this->_cotacoesFactory->create()->getCollection()->addFieldToFilter('cep_inicio', ["lteq" => $firstPostcode])->addFieldToFilter('cep_fim', ["gteq" => $lastPostcode])->addFilter("servico",$service);
         if($collection->count()>0){
             return false;
         }
@@ -263,7 +262,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /** Update offline tracks after a period */
     public function updateOfflineTracks(){
-        $lastItem = $this->_cotacoes->getCollection()->setOrder("ultimo_update","desc")->getFirstItem();
+        $lastItem = $this->_cotacoesFactory->create()->getCollection()->setOrder("ultimo_update","desc")->getFirstItem();
         $this->logMessage("Last Update: ".$lastItem->getUltimoUpdate());
 
         $daysUpdate = $this->_scopeConfig->getValue("carriers/igorludgero_correios/maxdays_update",$this->_storeScope);
@@ -289,7 +288,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             return false;
         }
 
-        $collectionToUpdate = $this->_cotacoes->getCollection();
+        $collectionToUpdate = $this->_cotacoesFactory->create()->getCollection();
         $this->updateTrackCollection($collectionToUpdate);
         $this->logMessage("Offline Postcode Tracks updated");
 
@@ -300,7 +299,7 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         $errors = 0;
         if($collection->count()>0) {
             foreach ($collection as $cotacao) {
-                $cotacaoObj = $this->_cotacoes->load($cotacao->getId());
+                $cotacaoObj = $this->_cotacoesFactory->create()->load($cotacao->getId());
                 $cotacaoValues = $this->getServiceToPopulate($cotacaoObj->getServico(), $cotacaoObj->getPeso(), $cotacaoObj->getCepFim());
                 if ($cotacaoValues != false) {
                     $now = new \DateTime();
