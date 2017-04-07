@@ -18,16 +18,19 @@ class Save extends \Magento\Backend\App\Action
     protected $dataProcessor;
     protected $dataPersistor;
     protected $helper;
+    protected $cotacoesFactory;
 
     public function __construct(
         Action\Context $context,
         PostDataProcessor $dataProcessor,
         DataPersistorInterface $dataPersistor,
-        \Igorludgero\Correios\Helper\Data $data
+        \Igorludgero\Correios\Helper\Data $data,
+        \Igorludgero\Correios\Model\ResourceModel\CotacoesFactory $factory
     ) {
         $this->dataProcessor = $dataProcessor;
         $this->dataPersistor = $dataPersistor;
         $this->helper = $data;
+        $this->cotacoesFactory = $factory;
         parent::__construct($context);
     }
 
@@ -41,7 +44,7 @@ class Save extends \Magento\Backend\App\Action
                 $data['cotacoes_id'] = null;
             }
 
-            $model = $this->_objectManager->create('Igorludgero\Correios\Model\Cotacoes');
+            $model = $this->cotacoesFactory->create();
 
             $id = $this->getRequest()->getParam('cotacoes_id');
             if ($id) {

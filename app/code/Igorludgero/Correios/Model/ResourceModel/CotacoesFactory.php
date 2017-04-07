@@ -6,7 +6,7 @@
  * @license     https://opensource.org/licenses/AFL-3.0  Academic Free License 3.0 | Open Source Initiative
  */
 
-namespace Igorludgero\Correios\Model;
+namespace Igorludgero\Correios\Model\ResourceModel;
 
 class CotacoesFactory
 {
