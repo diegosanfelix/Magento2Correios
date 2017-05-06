@@ -14,6 +14,7 @@
                 <resource id="Igorludgero_Correios::correios_menutop" title="Igor Ludgero - Correios" sortOrder="0" >
                     <resource id="Igorludgero_Correios::correios_menuoption1" title="Correios Shipping Track" sortOrder="1" />
                     <resource id="Igorludgero_Correios::correios_menuoption2" title="Shipping Method Configuration" sortOrder="2" />
+                    <resource id="Igorludgero_Correios::correios_menuoption3" title="Post Methods Configuration" sortOrder="3" />
                 </resource>
             </resource>
         </resources>

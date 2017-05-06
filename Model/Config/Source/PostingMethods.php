@@ -18,8 +18,6 @@ class PostingMethods implements \Magento\Framework\Option\ArrayInterface
         return array(
             array('value'=>40010, 'label'=>__('Sedex Sem Contrato (40010)')),
             array('value'=>40096, 'label'=>__('Sedex Com Contrato (40096)')),
-            array('value'=>40436, 'label'=>__('Sedex Com Contrato (40436)')),
-            array('value'=>40444, 'label'=>__('Sedex Com Contrato (40444)')),
             array('value'=>81019, 'label'=>__('E-Sedex Com Contrato (81019)')),
             array('value'=>41106, 'label'=>__('PAC Sem Contrato (41106)')),
             array('value'=>41068, 'label'=>__('PAC Com Contrato (41068)')),

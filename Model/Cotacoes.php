@@ -404,6 +404,7 @@ class Cotacoes extends AbstractModel
         $this->_scopeConfig = $scopeConfig;
         $this->_helper = $helper;
         $this->_cotacoesFactory = $cotacoesFactory;
+        $this->addOfflinePostMethods();
     }
 
     protected function _construct()
@@ -411,9 +412,19 @@ class Cotacoes extends AbstractModel
         $this->_init('Igorludgero\Correios\Model\ResourceModel\Cotacoes');
     }
 
+    public function addOfflinePostMethods(){
+        if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope) != "")
+            $this->_offlineAvailable[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope);
+        if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope) != "")
+            $this->_offlineAvailable[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope);
+        if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope) != "")
+            $this->_offlineAvailable[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope);
+    }
+
     /** Populate offline table */
     public function populate(){
         $postingMethods = explode(",",$this->_scopeConfig->getValue('carriers/igorludgero_correios/posting_methods',$this->_storeScope));
+        $postingMethods = $this->_helper->getPostMethodCodes($postingMethods);
         if($this->getCollection()->count()>0){
             $this->_helper->logMessage("Can't populate because the db isn't empty. First you to clear the db.");
             return false;
