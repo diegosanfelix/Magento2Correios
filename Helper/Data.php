@@ -27,22 +27,22 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     public function getMethodName($codigo){
         $codigo = (int)$codigo;
-        if($codigo==40010 || $codigo==40096 || $codigo==40436 || $codigo==40444){
+        if($codigo==40010 || $codigo == $this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope)){
             return "Sedex";
         }
-        else if($codigo==81019){
+        else if($codigo==81019 || $codigo == $this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope)){
             return "E-Sedex";
         }
-        else if($codigo==41106 || $codigo==41068){
+        else if($codigo==41106 || $codigo==41068 || $this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope)){
             return "PAC ";
         }
-        else if($codigo==40215){
+        else if($codigo==40215 || $this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope)){
             return "Sedex 10";
         }
-        else if($codigo==40290){
+        else if($codigo==40290 || $this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope)){
             return "Sedex HOJE";
         }
-        else if($codigo==40045){
+        else if($codigo==40045 || $this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope)){
             return "Sedex a cobrar";
         }
         else{
@@ -52,8 +52,10 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
 
     /** get Shipping Quote To Populate */
     public function getServiceToPopulate($service,$weight,$finalPostcode){
-
-        $url = $this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope);
+        if($this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope) != "")
+            $url = $this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope);
+        else
+            $url = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?StrRetorno=xml";
         $login = $this->_scopeConfig->getValue('carriers/igorludgero_correios/login',$this->_storeScope);
         $password = $this->_scopeConfig->getValue('carriers/igorludgero_correios/password',$this->_storeScope);
         if(intval($this->_scopeConfig->getValue('carriers/igorludgero_correios/default_height',$this->_storeScope))>0)
@@ -330,6 +332,49 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
             }
         }
         return array($updated,$errors);
+    }
+
+    public function getPostMethodCodes($methods){
+        $arrayMethods = array();
+        foreach ($methods as $codigo){
+            if($codigo==40010){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+            else if($codigo==81019){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+            else if($codigo==41106 || $codigo==41068){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+            else if($codigo==40215){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+            else if($codigo==40290){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+            else if($codigo==40045){
+                if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope) != "")
+                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope);
+                else
+                    $arrayMethods[] = $codigo;
+            }
+        }
+        return $arrayMethods;
     }
 
 }

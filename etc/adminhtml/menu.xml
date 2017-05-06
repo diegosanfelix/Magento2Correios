@@ -33,5 +33,14 @@
              action="adminhtml/system_config/edit/section/carriers/"
         />
 
+        <add id="Igorludgero_Correios::correios_menuoption3"
+             title="Post Methods Configuration"
+             module="Igorludgero_Correios"
+             sortOrder="3"
+             resource="Igorludgero_Correios::correios_menuoption3"
+             parent="Igorludgero_Correios::correios_menutop"
+             action="adminhtml/system_config/edit/section/correios_postingmethods_config/"
+        />
+
     </menu>
 </config>

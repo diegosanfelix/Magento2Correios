@@ -94,7 +94,10 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
 
         //Init Correios Shipping Values
         $this->_enabled = $this->_scopeConfig->getValue("carriers/igorludgero_correios/active",$this->_storeScope);
-        $this->_url = $this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope);
+        if($this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope) != "")
+            $this->_url = $this->_scopeConfig->getValue('carriers/igorludgero_correios/webservice_url',$this->_storeScope);
+        else
+            $this->_url = "http://ws.correios.com.br/calculador/CalcPrecoPrazo.aspx?StrRetorno=xml";
         $this->_login = $this->_scopeConfig->getValue('carriers/igorludgero_correios/login',$this->_storeScope);
         $this->_password = $this->_scopeConfig->getValue('carriers/igorludgero_correios/password',$this->_storeScope);
 
@@ -111,7 +114,8 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         else
             $this->_defDepth = 11;
         $this->_weightType = $this->_scopeConfig->getValue('carriers/igorludgero_correios/weight_type',$this->_storeScope);
-        $this->_postingMethods = explode(",",$this->_scopeConfig->getValue('carriers/igorludgero_correios/posting_methods',$this->_storeScope));
+        $postingMethods = explode(",",$this->_scopeConfig->getValue('carriers/igorludgero_correios/posting_methods',$this->_storeScope));
+        $this->_postingMethods = $this->_helper->getPostMethodCodes($postingMethods);
         $this->_deleteCodes = explode(",","008,-10,16");
         if($this->_scopeConfig->getValue('carriers/igorludgero_correios/owner_hands',$this->_storeScope)==0){
             $this->_ownerHands = 'N';

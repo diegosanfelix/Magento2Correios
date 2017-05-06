@@ -81,3 +81,6 @@
 "Correios Width","Largura (Correios)"
 "Correios Height","Altura (Correios)"
 "Correios Depth","Profundidade (Correios)"
+"Post Method Codes","Códigos das formas de Entrega"
+"Post Methods Configuration","Códigos das formas de Entrega"
+"Set the post methods codes according your contract with Correios.","Configure os códigos das formas de entrega utilizados em seu contrato. Estes códigos podem variar de contrato para contrato, por favor verifique com os Correios."
