@@ -339,42 +339,41 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         foreach ($methods as $codigo){
             if($codigo==40010){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
             else if($codigo==81019){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/esedex', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
             else if($codigo==41106 || $codigo==41068){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/pac', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
             else if($codigo==40215){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex10', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
             else if($codigo==40290){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_hoje', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
             else if($codigo==40045){
                 if($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope) != "")
-                    $arrayMethods[] = (int)$this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope);
+                    $arrayMethods[] = strval($this->_scopeConfig->getValue('correios_postingmethods_config/settings/sedex_cobrar', $this->_storeScope));
                 else
                     $arrayMethods[] = $codigo;
             }
         }
         return $arrayMethods;
     }
-
 }
