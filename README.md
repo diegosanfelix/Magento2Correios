@@ -1,5 +1,3 @@
-Developed by Igor Ludgero Miura - https://www.igorludgero.com/
-
 Magento 2 Correios Hybrid Shipping Method (Online & Offline)
 
 This is a free module to Magento 2, providing a shipping method to store calculating the shipping cost with Correios service.

@@ -10,7 +10,6 @@
 <page xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="urn:magento:framework:View/Layout/etc/page_configuration.xsd">
     <update handle="styles"/>
     <head>
-        <!--<link src="Df_Core::core.js"/>-->
         <css src="Igorludgero_Correios::css/admincorreios.css"/>
     </head>
     <body>

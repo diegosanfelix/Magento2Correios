@@ -54,6 +54,8 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
     //Cotacoes Model
     protected $_cotacoes;
 
+    protected $_urlBuilder;
+
     public function __construct(
         \Magento\Shipping\Model\Tracking\Result\StatusFactory $statusFactory,
         \Magento\Shipping\Model\Tracking\Result\Error $resultError,
@@ -67,6 +69,7 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         \Magento\Shipping\Model\Rate\ResultFactory $rateResultFactory,
         \Magento\Quote\Model\Quote\Address\RateResult\MethodFactory $rateMethodFactory,
         \Igorludgero\Correios\Model\Cotacoes $_cotacoes,
+        \Magento\Backend\Model\UrlInterface $urlBuilder,
         array $data = []
     ) {
         $this->_statusFactory = $statusFactory;
@@ -80,6 +83,7 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         $this->_resultError = $resultError;
         $this->_tracking = $resultStatus;
         $this->_cotacoes = $_cotacoes;
+        $this->_urlBuilder = $urlBuilder;
         parent::__construct($scopeConfig, $rateErrorFactory, $logger, $data);
     }
 
@@ -263,45 +267,9 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
     }
 
     protected function _getTracking($code) {
-
-        $body = file_get_contents("http://websro.correios.com.br/sro_bin/txect01$.QueryList?P_LINGUA=001&P_TIPO=002&P_COD_LIS=".$code);
-
-        if (!preg_match('#<table ([^>]+)>(.*?)</table>#is', $body, $matches)) {
-            return false;
-        }
-        $table = $matches[2];
-
-        if (!preg_match_all('/<tr>(.*)<\/tr>/i', $table, $columns, PREG_SET_ORDER)) {
-            return false;
-        }
-
-        for ($i = 0; $i < 1; $i++) {
-            $column = $columns[$i][1];
-
-            $found = false;
-            if (preg_match('/<td rowspan="?2"?/i', $column) && preg_match('/<td rowspan="?2"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i', $column, $matches)) {
-                $found = true;
-            } elseif (preg_match('/<td rowspan="?1"?>(.*)<\/td><td>(.*)<\/td><td><font color="[A-Z0-9]{6}">(.*)<\/font><\/td>/i', $column, $matches)) {
-                $found = true;
-            }
-
-            if ($found) {
-                $datetime = explode(' ', $matches[1]);
-                $status = htmlentities($matches[3]);
-                $deliveryTime = $datetime[1] . ':00';
-                $date = $datetime[0];
-                $dateArray = explode("/",$date);
-                $newDate = $dateArray[2]."-".$dateArray[1]."-".$dateArray[0];
-                $track = array(
-                    'deliverydate' => $newDate,
-                    'deliverytime' => $deliveryTime,
-                    'deliverylocation' => '',
-                    'status' => htmlentities($status),
-                    'activity' => htmlentities($status)
-                );
-                return $track;
-            }
-        }
+        return array(
+            'url' => $this->_urlBuilder->getBaseUrl().'correios/tracking/correios/code/'.$code
+        );
     }
 
     public function getTrackingInfo($number){
