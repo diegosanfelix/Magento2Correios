@@ -172,7 +172,7 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         else{
             $this->_cubic = $this->_helper->getCubicWeight($this->_session->getQuote());
         }
-        $arrayConsult = $this->generateConsultUrl();
+        $arrayConsult = $this->generateConsultUrl($request);
         $correiosMethods = array();
         if($this->_functionMode==2)
             $correiosMethods = $this->_helper->getOnlineShippingQuotes($arrayConsult);
@@ -283,7 +283,7 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
         return $tracking;
     }
 
-    protected function generateConsultUrl(){
+    protected function generateConsultUrl($request){
         if(count($this->_postingMethods)>0){
             $arrayConsult = array();
             foreach ($this->_postingMethods as $_method){
@@ -296,9 +296,14 @@ class Correiosship extends \Magento\Shipping\Model\Carrier\AbstractCarrier imple
                 }
 
                 if($this->_login!="")
-                    $url_d = $this->_url."&nCdEmpresa=".$this->_login."&sDsSenha=".$this->_password."&nCdFormato=1&nCdServico=".$_method."&nVlComprimento=".$this->_defWidth."&nVlAltura=".$this->_defHeight."&nVlLargura=".$this->_defWidth."&sCepOrigem=".$this->_origPostcode."&sCdMaoPropria=".$this->_ownerHands."&sCdAvisoRecebimento=".$this->_receivedWarning."&nVlValorDeclarado=".$this->_declaredValue."&nVlPeso=".$correiosWeight."&sCepDestino=".$this->_destinationPostCode;
+                    $url_d = $this->_url."&nCdEmpresa=".$this->_login."&sDsSenha=".$this->_password."&nCdFormato=1&nCdServico=".$_method."&nVlComprimento=".$this->_defWidth."&nVlAltura=".$this->_defHeight."&nVlLargura=".$this->_defWidth."&sCepOrigem=".$this->_origPostcode."&sCdMaoPropria=".$this->_ownerHands."&sCdAvisoRecebimento=".$this->_receivedWarning."&nVlPeso=".$correiosWeight."&sCepDestino=".$this->_destinationPostCode;
                 else
-                    $url_d = $this->_url."&nCdFormato=1&nCdServico=".$_method."&nVlComprimento=".$this->_defWidth."&nVlAltura=".$this->_defHeight."&nVlLargura=".$this->_defWidth."&sCepOrigem=".$this->_origPostcode."&sCdMaoPropria=".$this->_ownerHands."&sCdAvisoRecebimento=".$this->_receivedWarning."&nVlValorDeclarado=".$this->_declaredValue."&nVlPeso=".$correiosWeight."&sCepDestino=".$this->_destinationPostCode;
+                    $url_d = $this->_url."&nCdFormato=1&nCdServico=".$_method."&nVlComprimento=".$this->_defWidth."&nVlAltura=".$this->_defHeight."&nVlLargura=".$this->_defWidth."&sCepOrigem=".$this->_origPostcode."&sCdMaoPropria=".$this->_ownerHands."&sCdAvisoRecebimento=".$this->_receivedWarning."&nVlPeso=".$correiosWeight."&sCepDestino=".$this->_destinationPostCode;
+
+                //Check "valor declarado"
+                if($this->_declaredValue)
+                    $url_d = $url_d."&nVlValorDeclarado=".$request->getPackageValue();
+
                 $arrayConsult[] = $url_d;
                 $this->_helper->logMessage($url_d);
             }

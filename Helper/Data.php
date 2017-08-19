@@ -88,9 +88,14 @@ class Data extends \Magento\Framework\App\Helper\AbstractHelper
         }
 
         if($login!="")
-            $url_d = $url."&nCdEmpresa=".$login."&sDsSenha=".$password."&nCdFormato=1&nCdServico=".$service."&nVlComprimento=".$defWidth."&nVlAltura=".$defHeight."&nVlLargura=".$defWidth."&sCepOrigem=".$origPostcode."&sCdMaoPropria=".$ownerHands."&sCdAvisoRecebimento=".$receivedWarning."&nVlValorDeclarado=".$declaredValue."&nVlPeso=".$weight."&sCepDestino=".$finalPostcode;
+            $url_d = $url."&nCdEmpresa=".$login."&sDsSenha=".$password."&nCdFormato=1&nCdServico=".$service."&nVlComprimento=".$defWidth."&nVlAltura=".$defHeight."&nVlLargura=".$defWidth."&sCepOrigem=".$origPostcode."&sCdMaoPropria=".$ownerHands."&sCdAvisoRecebimento=".$receivedWarning."&nVlPeso=".$weight."&sCepDestino=".$finalPostcode;
         else
-            $url_d = $url."&nCdFormato=1&nCdServico=".$service."&nVlComprimento=".$defWidth."&nVlAltura=".$defHeight."&nVlLargura=".$defWidth."&sCepOrigem=".$origPostcode."&sCdMaoPropria=".$ownerHands."&sCdAvisoRecebimento=".$receivedWarning."&nVlValorDeclarado=".$declaredValue."&nVlPeso=".$weight."&sCepDestino=".$finalPostcode;
+            $url_d = $url."&nCdFormato=1&nCdServico=".$service."&nVlComprimento=".$defWidth."&nVlAltura=".$defHeight."&nVlLargura=".$defWidth."&sCepOrigem=".$origPostcode."&sCdMaoPropria=".$ownerHands."&sCdAvisoRecebimento=".$receivedWarning."&nVlPeso=".$weight."&sCepDestino=".$finalPostcode;
+
+        //Check "valor declarado"
+        if($declaredValue)
+            $url_d = $url_d."&nVlValorDeclarado=18";
+
         $this->logMessage($url_d);
         $urls = array($url_d);
         $shippingQuotes = $this->getOnlineShippingQuotes($urls);
